@@ -15,6 +15,7 @@
 
 import re
 import sys
+import csv
 
 def main():
     if (len(sys.argv) > 1):
@@ -38,7 +39,7 @@ def main():
     usedpattern = re.compile('UWP [^>]+>(.+?)</UWP', re.S)
 
     print "Part Number\tUsed With Part Number"
-
+    result = ""
     for match in matches:
 
         """ Need to find where to start submatch from because gross match will
@@ -51,9 +52,9 @@ def main():
         for m in re.finditer('<UWPMFR', match, re.S):
             start = m.start()
             used_with = usedpattern.search(match[start:]).group(1).strip()
-            print "%s\t%s" % (part, used_with)
+            result = result + part + "\t" + used_with + "\n"
 
+    print result
 
 if __name__ == "__main__":
     main()
-
